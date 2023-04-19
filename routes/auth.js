@@ -3,6 +3,6 @@ import { register} from '../controllers/auth.js';
 
 const route = express.Router();
 
-route.get('/registration',register);
+route.post('/registration',register);
 
 export default route;
