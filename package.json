@@ -1,0 +1,16 @@
+{
+  "name": "library_management",
+  "version": "1.0.0",
+  "description": "A library management system",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Deep Patel",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
+  }
+}
