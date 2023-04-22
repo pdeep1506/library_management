@@ -2,6 +2,7 @@ import jsonwebtoken from "jsonwebtoken";
 
 const verifyLogin = async(req,res,next)=>{
     const jwt = req.cookies['jwt'];
+    let decodedToken;
     try{
         if(!jwt){
             jsonwebtoken.verify(jwt, process.env.JWT_KEY, (err,user)=>{
@@ -10,10 +11,22 @@ const verifyLogin = async(req,res,next)=>{
                     next(err);
                 }
                 else{
-                    // set data
-                    // req.user = user; 
+                    console.log(" decoded token " + jwt);
+                    try{
+                        if(jwt){
+                            req.user = jwt;
+                            next();
+                        }
+                        else{
+                            
+                            return res.json({error: true, data:{ success: false, message: "please login again"}})
+                        }
+                    }
+                    catch(err){
+                        next(err);
+                    }
 
-                    next();
+                    
                 }
             })
         }
