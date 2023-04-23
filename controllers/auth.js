@@ -1,4 +1,4 @@
-import express from "express";
+// import express from "express";
 import jsonwebtoken from 'jsonwebtoken'
 import userModel from '../models/user.js';
 import { hashPassword, decryptPassword,  } from '../utillis/hashPassword.js';
@@ -115,6 +115,7 @@ export const login = async(req,res,next)=>{
               //  login success
               // jwt
               const jwt = jsonwebtoken.sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60),
                 user: exitingUser
             }, process.env.JWT_KEY)
             res.cookie('jwt', jwt)

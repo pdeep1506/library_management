@@ -2,7 +2,7 @@ import apiRoutes from './routes/version.js';
 import express from 'express';
 import 'dotenv/config.js';
 import mongoose from 'mongoose';
-// import 
+import cookieParser from 'cookie-parser';
 
 
 const app =express();
@@ -11,7 +11,7 @@ const port = process.env.PORT || 8000;
 const MONGODB_URI = `mongodb+srv://${process.env.MONGOOSE_USERNAME}:${process.env.MONGOOSE_PASSWORD}@atlascluster.bve4ouc.mongodb.net/test`;
 // const MONGODB_URI = process.env.MONGOOSE_URL;
 app.use(express.json())
-
+app.use(cookieParser())
 //  route
 app.use('/api', apiRoutes);
 

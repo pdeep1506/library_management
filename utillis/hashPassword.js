@@ -7,7 +7,7 @@ export const hashPassword = (password)=>{
 }
 
 export const decryptPassword = (password)=>{
-    console.log("password in decrypt  " , password)
+    // console.log("password in decrypt  " , password)
     const bytes  = CryptoJS.AES.decrypt(password, process.env.SECREAT_KEY);
     const originalText = bytes.toString(CryptoJS.enc.Utf8);
     return originalText;
