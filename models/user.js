@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
 
 });
 
+//  validate schema
+
 const userModel = new mongoose.model("user", userSchema);
 
 export default userModel;

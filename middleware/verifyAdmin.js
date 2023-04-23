@@ -1,6 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
 
-export const verifyLogin = async(req,res,next)=>{
+export const verifyAdminLogin = async(req,res,next)=>{
     const jwt = req.cookies['jwt'];
     let decodedToken;
     try{
@@ -13,13 +13,13 @@ export const verifyLogin = async(req,res,next)=>{
                 else{
                     console.log(" decoded token " + jwt);
                     try{
-                        if(jwt){
+                        if(jwt.admin === true){
                             req.user = jwt;
                             next();
                         }
                         else{
                             
-                            return res.json({error: true, data:{ success: false, message: "please login again"}})
+                            return res.json({error: true, data:{ success: false, message: "You are not authorized."}})
                         }
                     }
                     catch(err){
