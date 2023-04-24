@@ -18,10 +18,14 @@ const authorSchema = new mongoose.Schema({
         type: String,
         unique: true,
         require: true
+    },
+    nationality:{
+        type: String, 
+        require: true
     }
 },{
     timeseries: true, timestamps: true
 })
-const authorModel = new mongoose.model("author", authorModel);
+const authorModel = new mongoose.model("author", authorSchema);
 
 export default authorModel;

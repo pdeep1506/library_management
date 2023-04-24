@@ -26,3 +26,16 @@ export const adminSchemaValidator = Joi.object({
     admin: Joi.boolean().required().equal(true)
 
 })
+
+
+export const authorSchemaValidator = Joi.object({
+    fName: Joi.string().min(3).required(),
+    lName: Joi.string().min(3).required(),
+    cNumber: Joi.string().min(9).required(),
+
+
+    email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+    nationality: Joi.string()
+
+})
