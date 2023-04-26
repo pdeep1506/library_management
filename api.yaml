@@ -4,45 +4,127 @@ info:
   description: This is the documentation for inventory backend
   version: 1.0.0
   servers: 
-    url: "http://localhost:8000/api/v1"
+    # url: "http://localhost:8000/api/v1/"
+    url: "http://localhost:8000/api"
     description: This is my local server
     
 schemes: [http]
 
 paths:
-# Farmer
-  /farmer/get:
+# User  registration
+  /api/v1/auth/registration:
     post:
-      summary: return data of farmers
-      description: It returns a data of all farmer
-      responses:
-        200:
-          description: Successfully get all data of farmer
-    
-        500:
-          description: Interner Server error
-        401:
-          description: User is not login
-  
-  /farmer/:
-    post:
-      summary: Creating new farmer
-      description: This endpoint is used to create new farmer
+      summary: Used to register user.
+      description: It used to register user.
       produces:
         - application/json
       consumes:
         -application/json
       parameters:
       - in: body
-        name: farmer data data
+        name: User data 
         schema:
-          $ref: '#definitions/farmerSchema'
+          $ref: '#definitions/userSchema'
+      responses:
+        201:
+          description: Successfully created account.
+    
+        500:
+          description: Interner Server error.
+        401:
+          description: Invalid Data.
+        409: 
+          description: Email or contact number is already in database
+#user login
+  /api/v1/auth/login:
+    post:
+      summary: Used to login user
+      description: It used to login into account
+      produces:
+        - application/json
+      consumes:
+        -application/json
+      parameters:
+      - in: body
+        name: User data 
+        schema:
+          $ref: '#definitions/userLoginSchema'
       responses:
         200:
-          description: Successfully created farmer
+          description: Successfully login.
+    
         500:
-          description: Internal Server error
+          description: Interner Server error.
         401:
-          description: User is not login
-
+          description: Unauthorized.
+        409: 
+          description: Email or contact number is already in database
   
+# used for the admin register
+  /api/v1/auth/adminRegister:
+    post:
+      summary: Used to register admin user
+      description: It used to register admin user.
+      produces:
+        - application/json
+      consumes:
+        -application/json
+      parameters:
+      - in: body
+        name: User data 
+        schema:
+          $ref: '#definitions/userSchema'
+      responses:
+        201:
+          description: Successfully created account.
+    
+        500:
+          description: Interner Server error.
+        401:
+          description: Invalid Data.
+        409: 
+          description: Email or contact number is already in database
+
+# user 
+  /api/v1/user/allUsers:
+    get:
+      summary: Used to get data of all user
+      description: It used to get data  of all  user.
+      produces:
+        - application/json
+    
+      
+      responses:
+        200:
+          description: Successfully fetched  data.
+        401:
+          description: you are not authorized.
+    
+        
+  
+definitions:
+  userSchema:
+    type: object
+    properties:
+      fName:
+        type: string
+      lName:
+        type: string
+      cNumber:
+        type: number
+      email:
+        type: string
+      password:
+        type: string
+      admin:
+        type: boolean
+
+  userLoginSchema:
+    type: object
+    properties:
+      
+      email:
+        type: string
+      password:
+        type: string
+      

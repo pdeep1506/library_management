@@ -10,7 +10,7 @@ export const allUsers = async(req,res,next)=>{
         allUsers[i].password = undefined;        
     }
 
-    return res.json({error: false, data:{success:true,data: allUsers}});
+    return res.status(200).json({error: false, data:{success:true,data: allUsers}});
 }
 
 //  get  all user data who are admin.

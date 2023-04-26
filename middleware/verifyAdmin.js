@@ -15,16 +15,16 @@ export const verifyAdminLogin = async(req,res,next)=>{
                         next();
                     }
                     else{
-                        return res.json({error:false, data: {success:false,message: "You are not authorized."}})
+                        return res.status(401).json({error:false, data: {success:false,message: "You are not authorized."}})
                     }
                 }
                 else{
-                    return res.json({error:false, data: {success:false,message: "You are not authorized."}})
+                    return res.status(401).json({error:false, data: {success:false,message: "You are not authorized."}})
                 }
               });
         }
         else{
-            return res.json({error:false, data: {success:false,message: "You are not login.Please login to continue"}})
+            return res.status(401).son({error:false, data: {success:false,message: "You are not login.Please login to continue"}})
         }
       
         

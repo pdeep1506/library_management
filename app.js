@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import YAML from 'yamljs'
 // import swagerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
+import cors from 'cors';
 
 const app =express();
 const port = process.env.PORT || 8000;
@@ -13,6 +14,7 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGOOSE_USERNAME}:${process.en
 // const MONGODB_URI = process.env.MONGOOSE_URL;
 const swaggerSpec = YAML.load('./api.yaml')
 
+app.use(cors());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.use(express.json())
 app.use(cookieParser())

@@ -79,7 +79,7 @@ export const getAuthor = async(req,res,next)=>{
     const email = req.body.email;
     if(email){
         const findAuthor = await authorModel.find({email: email});
-        console.log("find author  ", findAuthor.length);
+        // console.log("find author  ", findAuthor.length);
         if(findAuthor.length > 0){
             return res.json({error: false, data:{success:true, data: findAuthor}})
         }

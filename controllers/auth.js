@@ -53,11 +53,11 @@ export const register = async(req,res,next)=>{
            
             if(checkEmail){
                 //  email is already in database
-                return res.json({error: false, data:{ success: false, message: "email is already in database"}})
+                return res.status(409).json({error: false, data:{ success: false, message: "email is already in database"}})
             }
             else if(checkcNumber){
                 //  contact number is already in database
-                return res.json({error:false, data:{ success: false, message: "contact number is already in database"}})
+                return res.status(409).json({error:false, data:{ success: false, message: "contact number is already in database"}})
             }
             
             
@@ -73,11 +73,11 @@ export const register = async(req,res,next)=>{
             const saveUser = await userModel.create(user);
             if(saveUser){
                 //  user created successfully.
-                return res.json({ error: false, data: { success: true, message: "Successfully created user." } });
+                return res.status(201).json({ error: false, data: { success: true, message: "Successfully created user." } });
             }
             else{
                 // user did not created successfully.
-                return res.json({ error: false, data: { success: false, message: "Error while creating account." } });
+                return res.status(409).json({ error: false, data: { success: false, message: "Error while creating account." } });
             }
         }
 
@@ -103,7 +103,7 @@ export const login = async(req,res,next)=>{
         
         if(!exitingUser){
               //  email or contact number not found in database
-              return res.json({error: false, data:{ success: false, message: "Email or contact number not found"}});
+              return res.status(401).json({error: false, data:{ success: false, message: "Email or contact number not found"}});
 
            
         }
@@ -119,12 +119,12 @@ export const login = async(req,res,next)=>{
                 user: exitingUser
             }, process.env.JWT_KEY)
             res.cookie('jwt', jwt)
-            return res.json({ error: false, data: { success: true, message: "login successfully", jwt: jwt } })
+            return res.status(200).json({ error: false, data: { success: true, message: "login successfully", jwt: jwt } })
 
            }
            else{
               //  password did not match
-              return res.json({error: false, data:{ success: false, message: "Wrong credentials"}})
+              return res.status(401).json({error: false, data:{ success: false, message: "Wrong credentials"}})
            }
         }
     }
