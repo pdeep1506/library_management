@@ -3,6 +3,7 @@ import jsonwebtoken from 'jsonwebtoken'
 import userModel from '../models/user.js';
 import { hashPassword, decryptPassword,  } from '../utillis/hashPassword.js';
 import { userSchemaValidator,adminSchemaValidator } from "../utillis/SchemaValidator.js";
+import Joi from 'joi';
 
 
 export const register = async(req,res,next)=>{
@@ -20,13 +21,14 @@ export const register = async(req,res,next)=>{
     let cNumber = req.body.cNumber;
     // let admin = req.body.admin ? true: false;
 
-    
-    
+
     try{
-        if(!userSchemaValidator.validateAsync(req.body)){
-           
-            return res.json({error: false, data:{success: false, data: "Invalid Data."}})
-        }
+       
+        
+        // if(!userSchemaValidator.validateAsync(req.body)){
+            
+        //     return res.json({error: false, data:{success: false, data: "Invalid data."}})
+        // }
         //  checking all data is correct
         // if( !email || !password || !fName || !lName || !cNumber){
         //     return res.json({error: false, data:{ success: false, data: "missing data"}});
@@ -84,6 +86,7 @@ export const register = async(req,res,next)=>{
     }
     catch(err){
         next(err);
+        // return res.json(err)
     }
     
 }
@@ -148,10 +151,10 @@ export const Adminregister = async(req,res,next)=>{
     
     
     try{
-        if(!adminSchemaValidator.validateAsync(req.body)){
+        // if(!adminSchemaValidator.validateAsync(req.body)){
            
-            return res.json({error: false, data:{success: false, data: "Invalid Data."}})
-        }
+        //     return res.json({error: false, data:{success: false, data: "Invalid Data."}})
+        // }
       
         //  check email or contact number is already in database
         const checkEmail = await userModel.findOne({email: email});

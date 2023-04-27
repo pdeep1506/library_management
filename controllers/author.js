@@ -28,10 +28,10 @@ export const createAuthor = async(req,res,next)=>{
         }
 
     try{
-        if(!authorSchemaValidator.validateAsync(req.body)){
-            return res.json({success: false, data:{ message: "Invalid data"}})
-        }
-        else if(foundNationality(nationality)== false){
+        // if(!authorSchemaValidator.validateAsync(req.body)){
+        //     return res.json({success: false, data:{ message: "Invalid data"}})
+        // }
+        if(foundNationality(nationality)== false){
             return res.json({success: false, data: {message: "Invalid country name"}})
         }
        else if(checkEmail || checkcNumber){
