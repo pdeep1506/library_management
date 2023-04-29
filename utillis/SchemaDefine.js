@@ -39,3 +39,34 @@ export const authorSchemaValidator = Joi.object({
     nationality: Joi.string()
 
 })
+
+
+export const publicationSchemaValidator = Joi.object({
+    Name: Joi.string().min(3).required(),
+    
+    cNumber: Joi.string().min(9).required(),
+
+
+    email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+    nationality: Joi.string().required()
+})
+
+
+
+export const bookSchemaValidator = Joi.object({
+    title: Joi.string().min(3).required(),
+    subtitle: Joi.string().min(3).required(),
+    price: Joi.number().min(1).required(),
+    authorEmail: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+    publicationDate: Joi.date().required(),
+    publisherEmail: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+    language: Joi.string().min(1).required(),
+    pageCount: Joi.number.min(1).required(),
+    hardCopy: Joi.boolean().required(),
+    isbn: Joi.string().required()
+
+
+})

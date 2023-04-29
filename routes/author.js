@@ -8,4 +8,7 @@ route.post('/addAuthor', verifyAdminLogin,authorValidate,createAuthor)
 route.get('/getAllAuthor', verifyAdminLogin,getAllAuthor)
 route.get('/getAuthor', verifyAdminLogin,getAuthor)
 
+// update author
+
+
 export default route;

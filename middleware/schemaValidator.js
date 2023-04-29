@@ -1,4 +1,4 @@
-import { userSchemaValidator, authorSchemaValidator, adminSchemaValidator } from "../utillis/SchemaValidator.js";
+import { userSchemaValidator, authorSchemaValidator, adminSchemaValidator, publicationSchemaValidator, bookSchemaValidator } from "../utillis/SchemaDefine.js";
 
 
 export const userValidate = (req, res, next) => {
@@ -8,7 +8,7 @@ export const userValidate = (req, res, next) => {
     // More logic goes here
 
     if(error){
-        return res.status(400).json({error: false, data:{success: false, data: "Invalid data."}})
+        return res.status(400).json({error: false, data:{success: false, data: "Invalid data.", error: error}})
     }
     else{
         next();
@@ -23,7 +23,7 @@ export const userValidate = (req, res, next) => {
     // More logic goes here
 
     if(error){
-        return res.status(400).json({error: false, data:{success: false, data: "Invalid data."}})
+        return res.status(400).json({error: false, data:{success: false, data: "Invalid data.", error: error}})
     }
     else{
         next();
@@ -37,9 +37,29 @@ export const userValidate = (req, res, next) => {
     // More logic goes here
 
     if(error){
-        return res.status(400).json({error: false, data:{success: false, data: "Invalid data."}})
+        return res.status(400).json({error: false, data:{success: false, data: "Invalid data.", error: error}})
     }
     else{
         next();
     }
   }
+
+export const publicationValidate = (req,res,next)=>{
+    const { error} = publicationSchemaValidator.validate(req.body);
+    if(error){
+        return res.status(400).json({error: false, data:{success: false, data: "Invalid data.", error: error}})
+    }
+    else{
+        next();
+    }
+}
+
+export const bookValidate = (req,res,next)=>{
+    const { error} = bookSchemaValidator.validate(req.body);
+    if(error){
+        return res.status(400).json({error: false, data:{success: false, data: "Invalid data.", error: error}})
+    }
+    else{
+        next();
+    }
+}
