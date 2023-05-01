@@ -27,7 +27,7 @@ app.use((error, req, res, next) => {
     const status = error.statusCode || error.httpStatusCode || 500;
     if (req.url.includes('/api/')) {
         const message = error.message;
-        return res.status(200).json({ error: true, message: message });
+        return res.status(status).json({ error: true, message: message });
     }
     res.redirect('/500');
 });

@@ -15,7 +15,7 @@ const publicationSchema = new mongoose.Schema({
 {timestamps: true});
 
 
-const publicationModel = new mongoose.model("publication", publicationModel);
+const publicationModel = new mongoose.model("publication", publicationSchema);
 
 // [ name, email, country , contact number]
 export default publicationModel;

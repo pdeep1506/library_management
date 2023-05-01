@@ -1,6 +1,6 @@
 import authorModel from "../models/author.js";
 import {  foundNationality } from "../utillis/country.js";
-import { authorSchemaValidator } from "../utillis/SchemaValidator.js";
+
 
 export const createAuthor = async(req,res,next)=>{
     // console.log(req.body)

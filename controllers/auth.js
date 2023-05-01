@@ -1,8 +1,8 @@
 // import express from "express";
 import jsonwebtoken from 'jsonwebtoken'
 import userModel from '../models/user.js';
-import { hashPassword, decryptPassword,  } from '../utillis/hashPassword.js';
-import { userSchemaValidator,adminSchemaValidator } from "../utillis/SchemaValidator.js";
+import { hashPassword, decryptPassword } from '../utillis/hashPassword.js';
+// import { userSchemaValidator,adminSchemaValidator } from "../utillis/SchemaValidator.js";
 import Joi from 'joi';
 
 
