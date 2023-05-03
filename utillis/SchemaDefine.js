@@ -42,7 +42,7 @@ export const authorSchemaValidator = Joi.object({
 
 
 export const publicationSchemaValidator = Joi.object({
-    Name: Joi.string().min(3).required(),
+    name: Joi.string().min(3).required(),
     
     cNumber: Joi.string().min(10).max(10).required(),
 
@@ -69,4 +69,13 @@ export const bookSchemaValidator = Joi.object({
     isbn: Joi.string().required()
 
 
+})
+
+export const checkEmail = Joi.object({
+   
+
+
+    email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+  
 })

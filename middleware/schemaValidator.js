@@ -1,4 +1,4 @@
-import { userSchemaValidator, authorSchemaValidator, adminSchemaValidator, publicationSchemaValidator, bookSchemaValidator } from "../utillis/SchemaDefine.js";
+import { userSchemaValidator, authorSchemaValidator, adminSchemaValidator, publicationSchemaValidator, bookSchemaValidator,checkEmail } from "../utillis/SchemaDefine.js";
 
 
 export const userValidate = (req, res, next) => {
@@ -62,4 +62,17 @@ export const bookValidate = (req,res,next)=>{
     else{
         next();
     }
+}
+
+export const validateEmail =(email)=>{
+    // console.log(email);
+    const {error} = checkEmail.validate({email:email});
+    // console.log(error)
+    if(error){
+        return true;
+    }
+    else{
+        return false;
+    }
+
 }

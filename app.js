@@ -23,7 +23,7 @@ app.use('/api', apiRoutes);
 
 
 app.use((error, req, res, next) => {
-    console.log("error    ",error, req.body);
+    // console.log("error    ",error, req.body);
     const status = error.statusCode || error.httpStatusCode || 500;
     if (req.url.includes('/api/')) {
         const message = error.message;

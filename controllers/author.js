@@ -15,34 +15,22 @@ export const createAuthor = async(req,res,next)=>{
       //  check email or contact number is already in database
       const checkEmail = await authorModel.findOne({email: email});
       const checkcNumber = await authorModel.findOne({cNumber: cNumber});
-      if(checkEmail || checkcNumber){
-         
-          if(checkEmail){
-              //  email is already in database
-              return res.json({error: false, data:{ success: false, message: "email is already in database"}})
-          }
-          else if(checkcNumber){
-              //  contact number is already in database
-              return res.json({error:false, data:{ success: false, message: "contact number is already in database"}})
-          }
-        }
+   
 
     try{
-        // if(!authorSchemaValidator.validateAsync(req.body)){
-        //     return res.json({success: false, data:{ message: "Invalid data"}})
-        // }
+       
         if(foundNationality(nationality)== false){
-            return res.json({success: false, data: {message: "Invalid country name"}})
+            return res.status(409).json({success: false, data: {message: "Invalid country name"}})
         }
        else if(checkEmail || checkcNumber){
          
             if(checkEmail){
                 //  email is already in database
-                return res.json({error: false, data:{ success: false, message: "email is already in database"}})
+                return res.status(409).json({error: false, data:{ success: false, message: "email is already in database"}})
             }
             else if(checkcNumber){
                 //  contact number is already in database
-                return res.json({error:false, data:{ success: false, message: "contact number is already in database"}})
+                return res.status(409).json({error:false, data:{ success: false, message: "contact number is already in database"}})
             }
           }
 
@@ -52,10 +40,10 @@ export const createAuthor = async(req,res,next)=>{
             const saveAuthor = await authorModel.create({email: email, fName: fName, lName: lName, cNumber: cNumber, nationality: nationality});
             if(saveAuthor){
 
-                return res.json({error: false, data:{ success: true, data: saveAuthor}});
+                return res.status(201).json({error: false, data:{ success: true, data: saveAuthor}});
             }
             else{
-                return res.json({error: false, data:{success: false, message: "Error while inserting data into  author."}})
+                return res.status(422).json({error: false, data:{success: false, message: "Error while inserting data into  author."}})
             }
         }
     }
@@ -68,10 +56,10 @@ export const createAuthor = async(req,res,next)=>{
 export const getAllAuthor = async(req,res,next)=>{
     const getAllAuthor = await authorModel.find({});
     if(getAllAuthor){
-        return res.json({error: false, data:{success:true, data: getAllAuthor}});
+        return res.status(200).json({error: false, data:{success:true, data: getAllAuthor}});
     }
     else{
-        return res.json({error:false, data:{success:false, message: "There is no data abouth author."}});
+        return res.status(200).json({error:false, data:{success:false, message: "There is no data abouth author."}});
     }
 }
 
@@ -81,14 +69,14 @@ export const getAuthor = async(req,res,next)=>{
         const findAuthor = await authorModel.find({email: email});
         // console.log("find author  ", findAuthor.length);
         if(findAuthor.length > 0){
-            return res.json({error: false, data:{success:true, data: findAuthor}})
+            return res.status(200).json({error: false, data:{success:true, data: findAuthor}})
         }
         else{
-            return res.json({error: false, data:{success: false, message:`Did not found author data for ${email}`}});
+            return res.status(200).json({error: false, data:{success: false, message:`Did not found author data for ${email}`}});
         }
     }
     else{
-        return res.json({error:false, data:{success: false, message:"Email did not found."}})
+        return res.status(200).json({error:false, data:{success: false, message:"Email did not found."}})
     }
 }
 
