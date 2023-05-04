@@ -1,7 +1,12 @@
 // import express from "express";import jsonwebtoken from 'jsonwebtoken'
 import userModel from '../models/user.js';
 import { hashPassword, decryptPassword } from '../utillis/hashPassword.js';
+import  nodemailer from "nodemailer";
 
+const htmlRegistration = `
+        <h1>Hello </h1>
+        <p> Welcome to the library management </p>
+`;
 
 
 export const register = async(req,res,next)=>{
@@ -46,8 +51,29 @@ export const register = async(req,res,next)=>{
             }
 
             const saveUser = await userModel.create(user);
+      
             if(saveUser){
                 //  user created successfully.
+              let testAccount = await nodemailer.createTestAccount();
+              console.log(testAccount);
+              let transporter =  nodemailer.createTransport({
+                    host: "smtp.ethereal.email",
+                    port: 587,
+                    secure: false, // true for 465, false for other ports
+                    auth: {
+                      user: testAccount.user, // generated ethereal user
+                      pass: testAccount.pass, // generated ethereal password
+                    },
+                });
+                // send mail with defined transport object
+             let info = await transporter.sendMail({
+          from: '"Fred Foo 👻" <foo@example.com>', // sender address
+          to: saveUser.email, // list of receivers
+                subject: "Welcome to library ✔", // Subject line
+              text: "Hello world?", // plain text body
+             html: htmlRegistration, // html body
+             });
+             console.log("Message sent: %s", info.messageId);
                 return res.status(201).json({ error: false, data: { success: true, message: "Successfully created user." } });
             }
             else{
