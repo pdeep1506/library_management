@@ -5,7 +5,11 @@ import userModel from "../models/user.js"
 
 // all user data
 export const allUsers = async(req,res,next)=>{
-    const allUsers = await userModel.find({});
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 5;
+    // console.log(skip);
+    // console.log(limit);
+    const allUsers = await userModel.find({}).skip(skip).limit(limit);
    
     for(let i = 0; i < allUsers.length;i++){
         allUsers[i].password = undefined;        
@@ -16,7 +20,9 @@ export const allUsers = async(req,res,next)=>{
 
 //  get  all user data who are admin.
 export const allAdmin = async(req,res,next)=>{
-    const allUsers = await userModel.find({admin:true});
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 5;
+    const allUsers = await userModel.find({admin:true}).skip(skip).limit(limit);
    
     for(let i = 0; i < allUsers.length;i++){
         allUsers[i].password = undefined;        
@@ -27,7 +33,9 @@ export const allAdmin = async(req,res,next)=>{
 
 //  get all user data who are not admin.
 export const allNotAdmin = async(req,res,next)=>{
-    const allUsers = await userModel.find({admin: false});
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 5;
+    const allUsers = await userModel.find({admin: false}).skip(skip).limit(limit);
    
     for(let i = 0; i < allUsers.length;i++){
         allUsers[i].password = undefined;        
@@ -40,7 +48,7 @@ export const allNotAdmin = async(req,res,next)=>{
 export const getUser = async(req,res,next)=>{
     const email = req.body.email;
     const emailIsInValid = validateEmail(email);
-    console.log(emailIsInValid)
+    // console.log(emailIsInValid)
     try{
         if(emailIsInValid){
             // email invalid

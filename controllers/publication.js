@@ -49,8 +49,10 @@ export const addPublication = async(req,res,next)=>{
 }
 
 export const getAllPublication = async(req,res,next)=>{
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 5;
    
-    const allPublication = await publicationModel.find({});
+    const allPublication = await publicationModel.find({}).skip(skip).limit(limit);
     return res.status(200).json({error: false, data:{success:true, data: allPublication}});
 }
 

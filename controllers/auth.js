@@ -1,4 +1,5 @@
-// import express from "express";import jsonwebtoken from 'jsonwebtoken'
+// import express from "express";
+import jsonwebtoken from 'jsonwebtoken'
 import userModel from '../models/user.js';
 import { hashPassword, decryptPassword } from '../utillis/hashPassword.js';
 
