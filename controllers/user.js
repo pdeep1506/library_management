@@ -1,7 +1,8 @@
+import { json } from "express";
 import { validateEmail } from "../middleware/schemaValidator.js";
 import userModel from "../models/user.js"
 
-
+import { hashPassword } from "../utillis/hashPassword.js";
 
 // all user data
 export const allUsers = async(req,res,next)=>{
@@ -69,4 +70,54 @@ export const getUser = async(req,res,next)=>{
         next(err);
     }
 
+}
+
+export const changeData = async(req,res,next)=>{
+    const id = req.params.id;
+    const findUser = await userModel.find({_id:id});
+  
+    if(findUser.length <=0){
+        return res.status(400).json({error: false, data:{success:false,message:"User not found"}});
+    }
+    else{
+        const userChangeEmail = await userModel.find({email: req.body.email});
+        const userChangeCNumber = await userModel.find({cNumber: req.body.cNumber});
+        
+        // email is already associated with the other user (means new email is already in database )
+
+        if(userChangeEmail.length>0 && (findUser.email != req.body.email)){
+            return res.status(400).json({error:false, data:{success:false, message: "New email is already in database"}})
+        }
+        else if(userChangeCNumber.length>0 && (findUser.cNumber != req.body.cNumber)){
+              // cNumber is already associated with the other user (means new cNumber is already in database )
+            return res.status(400).json({error:false, data:{success:false, message: "New contact number is already in database"}})
+        }
+        else if(req.user.id == req.body.id){
+
+                let email = req.body.email;
+                email = email ? email.trim().toLowerCase() : null
+                let password = req.body.password;
+                let fName = req.body.fName;
+                let lName = req.body.lName;
+                let cNumber = req.body.cNumber;
+                const passwordHASH = hashPassword(password);
+                
+                const user = {
+                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH
+                }
+
+                const updateUser = await userModel.findOneAndUpdate({_id: id},user);
+                if(updateUser){
+                    //  user updated successfully.
+                    return res.status(200).json({ error: false, data: { success: true, message: "Successfully updated user." } });
+                }
+                else{
+                    // user did not updated successfully.
+                    return res.status(400).json({ error: false, data: { success: false, message: "Error while updating account." } });
+                }
+        }
+        else{
+            return res.status(409).json({ error: false, data: { success: false, message: "Error while updating account." } });
+        }
+    }
 }

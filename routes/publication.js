@@ -1,5 +1,5 @@
 import express from 'express';
-import { addPublication, getAllPublication,getPublication } from '../controllers/publication.js';
+import { addPublication, getAllPublication,getPublication, updatePublication } from '../controllers/publication.js';
 import { verifyAdminLogin} from '../middleware/verifyAdmin.js';
 import {publicationValidate } from '../middleware/schemaValidator.js';
 const route = express.Router();
@@ -10,7 +10,7 @@ route.post('/addPublication', verifyAdminLogin, publicationValidate,addPublicati
 
 route.get('/getPublication', verifyAdminLogin, getPublication);
 route.get('/getAllPublication', verifyAdminLogin, getAllPublication);
-// route.patch();
+route.put('/updatePublication/:id', verifyAdminLogin, publicationValidate, updatePublication);
 // route.delete();
 
 

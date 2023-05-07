@@ -80,3 +80,53 @@ export const getAuthor = async(req,res,next)=>{
     }
 }
 
+export const updateAuthor = async(req,res,next)=>{
+    const id = req.params.id;
+    const findAuthor = await authorModel.find({_id:id});
+    // console.log("change user", req.user);
+    if(findAuthor.length<=0){
+        return res.status(400).json({error: false, data:{success:false,message:"Author not found"}});
+    }
+    else{
+        const authorChangeEmail = await authorModel.find({email: req.body.email});
+        const authorChangeCNumber = await authorModel.find({cNumber: req.body.cNumber});
+        
+        // email is already associated with the other user (means new email is already in database )
+
+        if(authorChangeEmail.length>0 && (findAuthor.email != req.body.email)){
+            return res.status(400).json({error:false, data:{success:false, message: "New email is already in database"}})
+        }
+        else if(authorChangeCNumber.length>0 && (findAuthor.cNumber != req.body.cNumber)){
+              // cNumber is already associated with the other user (means new cNumber is already in database )
+            return res.status(400).json({error:false, data:{success:false, message: "New contact number is already in database"}})
+        }
+        else if(foundNationality(req.body.nationality)== false){
+            return res.status(400).json({success: false, data: {message: "Invalid country name"}})
+        }
+        else{
+
+                let email = req.body.email;
+                email = email ? email.trim().toLowerCase() : null
+               
+                let fName = req.body.fName;
+                let lName = req.body.lName;
+                let cNumber = req.body.cNumber;
+                let nationality = req.body.nationality.toLowerCase();
+                
+                const author = {
+                fName: fName, lName: lName, cNumber: cNumber, email: email, nationality: nationality
+                }
+
+                const updateAuthor = await authorModel.findOneAndUpdate({_id: id},author);
+                if(updateAuthor){
+                    //  user updated successfully.
+                    return res.status(200).json({ error: false, data: { success: true, message: "Successfully updated author." } });
+                }
+                else{
+                    // user did not updated successfully.
+                    return res.status(409).json({ error: false, data: { success: false, message: "Error while updating author information." } });
+                }
+        }
+        
+    }
+}

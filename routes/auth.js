@@ -6,6 +6,8 @@ const route = express.Router();
 route.post('/registration',userValidate,register);
 route.post('/login', login);
 route.post('/adminRegister', adminValidate,Adminregister);
+
+
 //  login
 //  verify account
 //  change password (  user login required )

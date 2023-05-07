@@ -166,3 +166,4 @@ export const Adminregister = async(req,res,next)=>{
     }
     
 }
+

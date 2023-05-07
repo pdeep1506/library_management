@@ -12,6 +12,7 @@ export const verifyLogin = async(req,res,next)=>{
                 if(decoded){
                  
                     if(decoded.user){
+                        req.user = decoded.user;
                         next();
                     }
                     else{
