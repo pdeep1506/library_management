@@ -29,7 +29,7 @@ const bookSchema = new mongoose.Schema({
     hardCopy:{
         type: boolean, required: true
     },
-    isbn:{
+    ISBN:{
         type: string, required: true
     }
 
