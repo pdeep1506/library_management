@@ -20,29 +20,46 @@ export const saveBooks = async(req,res,next)=>{
 
     const findAuthor = await authorModel.findOne({email:authorEmail});
     const findPublisher = await publicationModel.findOne({email: publisherEmail});
+    const findBook  = await bookModel.find({title:title, subtitle: subtitle, language:language})
+
     const checkDateIsValid = date.isValid(publicationDate, "DD/MM/YYYY");
+    
     
     let dateNow = new Date();
     
    let newPublicationDate = new Date(publicationDate);
-    
+
+
 
     // comparing two dates
     // if publication date 1 is  greater than current date
-    if(!checkDateIsValid){
-        return res.json({error: false, data:{success:false, message:"Invalid date formate.Please pass date in DD/MM/YYYY Formate."}})
+    if(findBook.length>0){
+        return res.status(400).json({error: false, data:{success:false, message:"Title,Subtitle and language is already in  database."}})
+    }
+    else if(!checkDateIsValid){
+        return res.status(400).json({error: false, data:{success:false, message:"Invalid date formate.Please pass date in DD/MM/YYYY Formate."}})
     }
     else if (newPublicationDate > dateNow){
-        return res.json({error: false, data:{success:false, message:"Please check your date."}})
+        return res.status(400).json({error: false, data:{success:false, message:"Please check your date."}})
     }
     else if(!findAuthor){
-        return res.json({error: false, data:{success:false, message:"Did not find author with email.Please check email for author"}})
+        return res.status(400).json({error: false, data:{success:false, message:"Did not find author with email.Please check email for author"}})
     }
     else if(!findPublisher){
-        return res.json({error: false, data:{success:false, message:"Did not find publisher with email.Please check email for publisher"}})
+        return res.status(400).json({error: false, data:{success:false, message:"Did not find publisher with email.Please check email for publisher"}})
+    }
+    else{
+        const saveBook = await bookModel.create({title:title,subtitle:subtitle,price:price, authorEmail:authorEmail,publisherEmail:publisherEmail,
+        publicationDate:publicationDate, language:language,pageCount:pageCount,hardCopy:hardCopy,ISBN:ISBN});
+        if(saveBook){
+            return res.status(201).json({error: false, data:{success:true, message:"Successfully added book.", data: saveBook}})
+        }
+        else{
+            return res.status(400).json({error: false, data:{success:false, message:"Error while inserting data."}})
+        }
     }
 
-    return res.json({data:"dms"})
+    
 
 }
 

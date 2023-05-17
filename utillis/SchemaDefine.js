@@ -57,7 +57,7 @@ export const publicationSchemaValidator = Joi.object({
 export const bookSchemaValidator = Joi.object({
     title: Joi.string().min(3).required(),
     subtitle: Joi.string().min(3).required(),
-    price: Joi.number().min(1).required(),
+    price: Joi.number().min(0).required(),
     authorEmail: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
     publicationDate: Joi.date().required(),
