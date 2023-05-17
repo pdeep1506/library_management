@@ -1,4 +1,4 @@
-import { boolean, date, string } from "joi";
+
 import mongoose from "mongoose";
 
 const bookSchema = new mongoose.Schema({
@@ -27,17 +27,17 @@ const bookSchema = new mongoose.Schema({
         type: Number
     },
     hardCopy:{
-        type: boolean, required: true
+        type: Boolean, required: true
     },
     ISBN:{
-        type: string, required: true
+        type: String, required: true
     }
 
 },{
     timestamps:true
 });
 
-const bookModel = new mongoose.model("book", bookModel);
+const bookModel = new mongoose.model("book", bookSchema);
 
 
 
