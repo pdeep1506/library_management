@@ -65,7 +65,25 @@ export const saveBooks = async(req,res,next)=>{
 
 // get all book
 
+export const getAllBooks = async(req,res)=>{
+    const findAllBook = await bookModel.find({});
+    return res.status(200).json({error:false, data:{ success: true, messsage: "Get all books", date: findAllBook}})
+}
 
+// sorting by price
+
+export const sortByPrice = async(req,res)=>{
+    bookModel.find({}).sort(req.query.sort)
+    .then((respo)=>{
+
+        return res.status(200).json({error:false, data:{ success: true, messsage: "Get all books by sorting price", date: respo}})
+    })
+    .catch((err)=>{
+        return res.status(404).json({error:false, data:{ success: false, messsage: err}})
+
+    })
+  
+}
 
 // get book
 

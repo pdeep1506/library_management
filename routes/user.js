@@ -1,5 +1,5 @@
 import express  from 'express';
-import { allUsers, allAdmin, allNotAdmin, getUser, changeData } from '../controllers/user.js';
+import { allUsers, allAdmin, allNotAdmin, getUser, changeData, sort } from '../controllers/user.js';
 import { verifyAdminLogin} from '../middleware/verifyAdmin.js'
 import { verifyLogin } from '../middleware/verifyLogin.js';
 import { userValidate } from '../middleware/schemaValidator.js';
@@ -10,6 +10,7 @@ route.get('/allAdmin',verifyAdminLogin,allAdmin);
 route.get('/allNotAdmin',verifyAdminLogin,allNotAdmin);
 route.get('/getUser/',verifyAdminLogin ,getUser)
 route.put('/updateUser/:id', verifyLogin,userValidate,changeData);
+route.get('/sort', verifyAdminLogin, sort);
 
 
 

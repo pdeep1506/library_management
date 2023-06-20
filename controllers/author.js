@@ -130,3 +130,17 @@ export const updateAuthor = async(req,res,next)=>{
         
     }
 }
+
+// sort authort
+export const sort = async(req,res)=>{
+    authorModel.find({}).sort(req.query.sort)
+    .then((respo)=>{
+
+        return res.status(200).json({error:false, data:{ success: true, messsage: "Get all author by sorting", date: respo}})
+    })
+    .catch((err)=>{
+        return res.status(404).json({error:false, data:{ success: false, messsage: err}})
+
+    })
+  
+}
