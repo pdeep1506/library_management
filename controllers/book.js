@@ -91,3 +91,27 @@ export const sortByPrice = async(req,res)=>{
 
 
 // edit book
+
+
+// search book
+
+export const searchBooks = async(req,res)=>{
+    let query = {};
+   const {title, subtitle} = req.query
+   if(title){
+    query.title = {$regex: title, $options:"i"}
+   }
+   if(subtitle){
+    query.subtitle = {$regex: subtitle, $options:"i"};
+   }
+    const result = await bookModel.find(query);
+    console.log(query)
+    console.log(result)
+    if(result.length > 0){
+        return res.status(200).json({error:false, data:{success:true, date:result}})
+    }
+    else{
+        return res.status(500).json({error:false, data:{success:false, message:"Not a Valid Search"}})
+    }
+    
+}
