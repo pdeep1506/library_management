@@ -105,8 +105,8 @@ export const searchBooks = async(req,res)=>{
     query.subtitle = {$regex: subtitle, $options:"i"};
    }
     const result = await bookModel.find(query);
-    console.log(query)
-    console.log(result)
+    // console.log(query)
+    // console.log(result)
     if(result.length > 0){
         return res.status(200).json({error:false, data:{success:true, date:result}})
     }

@@ -154,3 +154,24 @@ export const sort = async(req,res)=>{
     })
   
 }
+
+export const search = async(req,res)=>{
+    let query = {};
+    const { email, cNumber} = req.query;
+    if(email){
+        
+        query.email = {$regex: email, $options:"i"};
+    }
+    // if(cNumber){
+       
+    //     query.cNumber = {$regex: cNumber, $options:"i"};
+    // }
+    // console.log(query)
+    const searchPublication = await publicationModel.find(query);
+    if(searchPublication.length > 0){
+        return res.status(200).json({error:false, data:{success:true, date:searchPublication}})
+    }
+    else{
+        return res.status(500).json({error:false, data:{success:false, message:"Not a Valid Search"}})
+    }
+}

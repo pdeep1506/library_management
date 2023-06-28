@@ -135,3 +135,22 @@ export const sort = async(req,res)=>{
     })
   
 }
+
+// search  user
+
+export const search = async(req,res,next)=>{
+    let query = {}
+    const {email}  = req.query
+    if(email){
+
+        query.email = {$regex: email, $options:"i"};
+    }
+    const findUser = await userModel.find(query);
+    // console.log(query)
+    if(findUser.length > 0){
+        return res.status(200).json({error:false, data:{success: true, data:findUser}})
+    }
+    else{
+        return res.status(500).json({error:false, data:{success:false, message:"Not a Valid Search"}})
+    }
+}
