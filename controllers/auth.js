@@ -20,8 +20,6 @@ export const register = async(req,res,next)=>{
 
     try{
        
-        
-       
         //  check email or contact number is already in database
         const checkEmail = await userModel.findOne({email: email});
         const checkcNumber = await userModel.findOne({cNumber: cNumber});
@@ -36,10 +34,9 @@ export const register = async(req,res,next)=>{
                 return res.status(409).json({error:false, data:{ success: false, message: "contact number is already in database"}})
             }
             
-            
-            
         }
         else{
+        
             //  code for registration
             const passwordHASH = hashPassword(password);
             const user = {
@@ -60,7 +57,7 @@ export const register = async(req,res,next)=>{
     }
     catch(err){
         next(err);
-        // return res.json(err)
+      
     }
     
 }
@@ -109,9 +106,6 @@ export const login = async(req,res,next)=>{
 }
 
 export const Adminregister = async(req,res,next)=>{
-    
-    
-
     let email = req.body.email;
     email = email ? email.trim().toLowerCase() : null
     let password = req.body.password;
@@ -120,11 +114,8 @@ export const Adminregister = async(req,res,next)=>{
     let cNumber = req.body.cNumber;
     let admin = req.body.admin;
 
-    
-    
     try{
     
-      
         //  check email or contact number is already in database
         const checkEmail = await userModel.findOne({email: email});
         const checkcNumber = await userModel.findOne({cNumber: cNumber});
@@ -138,7 +129,6 @@ export const Adminregister = async(req,res,next)=>{
                 //  contact number is already in database
                 return res.status(409).json({error:false, data:{ success: false, message: "contact number is already in database"}})
             }
-            
             
             
         }

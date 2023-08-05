@@ -7,6 +7,7 @@ import date from 'date-and-time';
 // save book
 
 export const saveBooks = async(req,res,next)=>{
+   
     const title = req.body.title;
     const subtitle = req.body.subtitle;
     const price = req.body.price;
@@ -21,6 +22,7 @@ export const saveBooks = async(req,res,next)=>{
     const findAuthor = await authorModel.findOne({email:authorEmail});
     const findPublisher = await publicationModel.findOne({email: publisherEmail});
     const findBook  = await bookModel.find({title:title, subtitle: subtitle, language:language})
+    const finISBM = await bookModel.find({ISBN: ISBN});
 
     const checkDateIsValid = date.isValid(publicationDate, "DD/MM/YYYY");
     
@@ -30,7 +32,7 @@ export const saveBooks = async(req,res,next)=>{
    let newPublicationDate = new Date(publicationDate);
 
 
-
+   
     // comparing two dates
     // if publication date 1 is  greater than current date
     if(findBook.length>0){
@@ -48,6 +50,9 @@ export const saveBooks = async(req,res,next)=>{
     else if(!findPublisher){
         return res.status(400).json({error: false, data:{success:false, message:"Did not find publisher with email.Please check email for publisher"}})
     }
+    else if(finISBM.length >0){
+        return res.status(400).json({error: false, data:{success:false, message:"Book with this ISBN is already in database."}})
+    }
     else{
         const saveBook = await bookModel.create({title:title,subtitle:subtitle,price:price, authorEmail:authorEmail,publisherEmail:publisherEmail,
         publicationDate:publicationDate, language:language,pageCount:pageCount,hardCopy:hardCopy,ISBN:ISBN});
@@ -59,6 +64,7 @@ export const saveBooks = async(req,res,next)=>{
         }
     }
 
+    
     
 
 }
@@ -86,11 +92,49 @@ export const sortByPrice = async(req,res)=>{
 }
 
 // get book
+export const getBook = async(req,res,next)=>{
+    
+    let query = {};
+    if(req.body.id){
+        query.id = req.body.id;
+    }
+    else if(req.body.ISBN){
+        query.ISBN = req.body.ISBN;
+    }
+    const findBook = await bookModel.find(query);
+    if(findBook.length >0){
+        return res.json({error:false, date:{ success: true, message:"Successfully find book", date: findBook}});
+    }
+    else{
+        return res.json({error:false, date:{ success: false, message:"Did not  find any book"}});
+    }
 
-// delete book
+    
+}
 
 
 // edit book
+
+export const updateBook = async(req,res,next)=>{
+   
+
+    let query = {};
+    if(req.body.id){
+        query.id = req.body.id;
+    }
+    else if(req.body.ISBN){
+        query.ISBN = req.body.ISBN;
+    }
+
+    const findBookAndUpdate = await bookModel.findOneAndUpdate(query, req.body);
+    if(findBookAndUpdate){
+        return res.status(201).json({error:false, date:{success:true, message:"Successfully updated"}})
+    }
+    else{
+        return res.status(401).json({error: false, date:{success:false, message:"Error while updating book"}})
+    }
+
+}
 
 
 // search book

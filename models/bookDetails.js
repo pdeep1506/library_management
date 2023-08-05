@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const bookDetailsSchema  = new mongoose.Schema({
@@ -7,17 +8,30 @@ const bookDetailsSchema  = new mongoose.Schema({
     // :- userID who borrowed book
     // :- no_of_lost_book
     bookId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"bookModel"
 
     },
+
     totalBookCopy:{
-        
+        type: Number
     },
     totalAvailableCopy:{
-
+        type: Number
     },
     totalLostBookCopy:{
+        type: Number
+    },
 
+    userID:{
+        type: [
+            {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"userModel"
+            }
+        ]
     }
+
 
 });
 

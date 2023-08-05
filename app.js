@@ -11,7 +11,7 @@ import cors from 'cors';
 const app =express();
 const port = process.env.PORT || 8000;
 const MONGODB_URI = `mongodb+srv://${process.env.MONGOOSE_USERNAME}:${process.env.MONGOOSE_PASSWORD}@atlascluster.bve4ouc.mongodb.net/test`;
-// const MONGODB_URI = process.env.MONGOOSE_URL;
+
 const swaggerSpec = YAML.load('./api.yaml')
 
 app.use(cors());
@@ -33,16 +33,17 @@ app.use((error, req, res, next) => {
 });
 
 
-// app.listen(port, '127.0.0.1',()=>{
-//     console.log(`SERVER RUNNING ON ${port}`);
-// })
+
 
 mongoose.connect(MONGODB_URI)
     .then(result => {
        
-        app.listen(port, () => {
-            console.log('SERVER RUNNING ON PORT', port);
-        });
+        if(result){
+
+            app.listen(port, () => {
+                console.log('SERVER RUNNING ON PORT', port);
+            });
+        }
     })
     .catch(err => {
         console.log(err);
