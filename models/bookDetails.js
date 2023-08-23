@@ -1,5 +1,5 @@
 
-import mongoose from "mongoose";
+import mongoose, { Schema} from "mongoose";
 
 const bookDetailsSchema  = new mongoose.Schema({
 
@@ -8,7 +8,7 @@ const bookDetailsSchema  = new mongoose.Schema({
     // :- userID who borrowed book
     // :- no_of_lost_book
     bookId:{
-        type:mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref:"bookModel"
 
     },
@@ -26,7 +26,7 @@ const bookDetailsSchema  = new mongoose.Schema({
     userID:{
         type: [
             {
-            type:mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref:"userModel"
             }
         ]

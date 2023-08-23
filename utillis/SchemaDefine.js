@@ -58,11 +58,11 @@ export const bookSchemaValidator = Joi.object({
     title: Joi.string().min(3).required(),
     subtitle: Joi.string().min(3).required(),
     price: Joi.number().min(0).required(),
-    authorEmail: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+    authorId: Joi.string().required().regex(/^[0-9a-fA-F]{24}$/, 'object Id'),
     publicationDate: Joi.date().required(),
-    publisherEmail: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+    publisherId: Joi.string()
+    .required()
+    .regex(/^[0-9a-fA-F]{24}$/, 'object Id'),
     language: Joi.string().min(1).required(),
     pageCount: Joi.number().integer().min(1).required(),
     hardCopy: Joi.boolean().required(),

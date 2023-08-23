@@ -1,5 +1,8 @@
 
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
+
+import authorModel from "./author.js";
+import publicationModel from "./publication.js";
 
 const bookSchema = new mongoose.Schema({
     title:{
@@ -11,14 +14,20 @@ const bookSchema = new mongoose.Schema({
     price: {
         type: Number, required: true
     },
-    authorEmail:{
-        type: String, required: true
+    authorId:{
+         
+            type: Schema.Types.ObjectId,
+            ref:"author"
+        
     },
     publicationDate:{
         type: Date, required: true
     },
-    publisherEmail:{
-        type: String, required: true
+    publisherId:{
+       
+            type: Schema.Types.ObjectId,
+            ref:"publication"
+        
     },
     language:{
         type: String, required: true

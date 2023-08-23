@@ -3,7 +3,13 @@ import authorModel from "../models/author.js";
 import publicationModel from "../models/publication.js";
 import date from 'date-and-time';
 
-
+const generateISBN = ()=>{
+    //! ISBN sample = 978 - 0 - 446 - 31708 - 9
+     //? 0 = country  or language group
+     //? 446  = identifier for publisher
+     //? 31708 = identifer the title, edition or formate
+     //? 9 = identify the checklist digit
+}
 // save book
 
 export const saveBooks = async(req,res,next)=>{
@@ -11,16 +17,16 @@ export const saveBooks = async(req,res,next)=>{
     const title = req.body.title;
     const subtitle = req.body.subtitle;
     const price = req.body.price;
-    const authorEmail = req.body.authorEmail;
+    const authorId = req.body.authorId;
     const publicationDate = req.body.publicationDate;
-    const publisherEmail = req.body.publisherEmail;
+    const publisherId = req.body.publisherId;
     const language = req.body.language;
     const pageCount = req.body.pageCount;
     const hardCopy = req.body.hardCopy;
     const ISBN = req.body.ISBN;
 
-    const findAuthor = await authorModel.findOne({email:authorEmail});
-    const findPublisher = await publicationModel.findOne({email: publisherEmail});
+    const findAuthor = await authorModel.findOne({_id:authorId});
+    const findPublisher = await publicationModel.findOne({_id: publisherId});
     const findBook  = await bookModel.find({title:title, subtitle: subtitle, language:language})
     const finISBM = await bookModel.find({ISBN: ISBN});
 
@@ -54,8 +60,10 @@ export const saveBooks = async(req,res,next)=>{
         return res.status(400).json({error: false, data:{success:false, message:"Book with this ISBN is already in database."}})
     }
     else{
-        const saveBook = await bookModel.create({title:title,subtitle:subtitle,price:price, authorEmail:authorEmail,publisherEmail:publisherEmail,
+        const saveBook = await bookModel.create({title:title,subtitle:subtitle,price:price, authorId:authorId,publisherId:publisherId,
         publicationDate:publicationDate, language:language,pageCount:pageCount,hardCopy:hardCopy,ISBN:ISBN});
+        
+        
         if(saveBook){
             return res.status(201).json({error: false, data:{success:true, message:"Successfully added book.", data: saveBook}})
         }
@@ -72,14 +80,23 @@ export const saveBooks = async(req,res,next)=>{
 // get all book
 
 export const getAllBooks = async(req,res)=>{
-    const findAllBook = await bookModel.find({});
-    return res.status(200).json({error:false, data:{ success: true, messsage: "Get all books", date: findAllBook}})
+    const findAllBook = await bookModel.find({})
+    .populate('authorId') 
+    .populate('publisherId'); 
+    if(findAllBook.length >0){
+        return res.status(200).json({error:false, data:{ success: true, messsage: "Get all books", date: findAllBook}})
+    }
+    else{
+        return res.json({error:false, date:{ success: false, message:"Did not  find any book"}});
+    }
+   
 }
 
 // sorting by price
 
 export const sortByPrice = async(req,res)=>{
-    bookModel.find({}).sort(req.query.sort)
+    bookModel.find({}).populate('authorId') 
+    .populate('publisherId').sort(req.query.sort)
     .then((respo)=>{
 
         return res.status(200).json({error:false, data:{ success: true, messsage: "Get all books by sorting price", date: respo}})
@@ -101,7 +118,8 @@ export const getBook = async(req,res,next)=>{
     else if(req.body.ISBN){
         query.ISBN = req.body.ISBN;
     }
-    const findBook = await bookModel.find(query);
+    const findBook = await bookModel.find(query).populate('authorId') 
+    .populate('publisherId'); 
     if(findBook.length >0){
         return res.json({error:false, date:{ success: true, message:"Successfully find book", date: findBook}});
     }
@@ -148,7 +166,8 @@ export const searchBooks = async(req,res)=>{
    if(subtitle){
     query.subtitle = {$regex: subtitle, $options:"i"};
    }
-    const result = await bookModel.find(query);
+    const result = await bookModel.find(query).populate('authorId') 
+    .populate('publisherId'); 
     // console.log(query)
     // console.log(result)
     if(result.length > 0){

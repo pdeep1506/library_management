@@ -17,14 +17,14 @@ const authorSchema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        require: true
+        required: true
     },
     nationality:{
         type: String, 
-        require: true
+        required: true
     }
 },{
-    timeseries: true, timestamps: true
+     timestamps: true
 })
 const authorModel = new mongoose.model("author", authorSchema);
 
