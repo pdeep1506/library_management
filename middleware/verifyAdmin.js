@@ -11,7 +11,7 @@ export const verifyAdminLogin = async(req,res,next)=>{
                
                 if(decoded){
                     
-                    if(decoded.user.admin == true){
+                    if(decoded.user.role == "ADMIN"){
                         next();
                     }
                     else{

@@ -23,7 +23,7 @@ export const adminSchemaValidator = Joi.object({
     email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
     password: Joi.string().regex(strongPasswordRegex).required(),
-    admin: Joi.boolean().required().equal(true)
+    
 
 })
 

@@ -10,7 +10,7 @@ import cors from 'cors';
 
 const app =express();
 const port = process.env.PORT || 8000;
-const MONGODB_URI = `mongodb+srv://${process.env.MONGOOSE_USERNAME}:${process.env.MONGOOSE_PASSWORD}@atlascluster.bve4ouc.mongodb.net/test`;
+const MONGODB_URI = `mongodb+srv://${process.env.MONGOOSE_USERNAME}:${process.env.MONGOOSE_PASSWORD}@atlascluster.bve4ouc.mongodb.net/library`;
 
 const swaggerSpec = YAML.load('./api.yaml')
 

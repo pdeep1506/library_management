@@ -3,6 +3,7 @@ import jsonwebtoken from 'jsonwebtoken'
 import userModel from '../models/user.js';
 import { hashPassword, decryptPassword } from '../utillis/hashPassword.js';
 
+import { ROLES } from '../utillis/ROLE.js';
 
 
 export const register = async(req,res,next)=>{
@@ -40,7 +41,7 @@ export const register = async(req,res,next)=>{
             //  code for registration
             const passwordHASH = hashPassword(password);
             const user = {
-                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH
+                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH, role: ROLES.User
             }
 
             const saveUser = await userModel.create(user);
@@ -112,7 +113,8 @@ export const Adminregister = async(req,res,next)=>{
     let fName = req.body.fName;
     let lName = req.body.lName;
     let cNumber = req.body.cNumber;
-    let admin = req.body.admin;
+    // let admin = req.body.admin;
+    // let role = req.body.role;
 
     try{
     
@@ -136,7 +138,7 @@ export const Adminregister = async(req,res,next)=>{
             //  code for registration
             const passwordHASH = hashPassword(password);
             const user = {
-                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH, admin: admin
+                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH, role: ROLES.Admin
             }
 
             const saveUser = await userModel.create(user);
