@@ -21,16 +21,9 @@ const bookDetailsSchema  = new mongoose.Schema({
     },
     totalLostBookCopy:{
         type: Number
-    },
-
-    userID:{
-        type: [
-            {
-            type: Schema.Types.ObjectId,
-            ref:"userModel"
-            }
-        ]
     }
+
+    
 
 
 });
