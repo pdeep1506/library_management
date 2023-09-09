@@ -11,6 +11,10 @@ const publicationSchema = new mongoose.Schema({
     },nationality:{
         type: String
     },
+    creator:{
+        type: Schema.Types.ObjectId,
+        ref:"user"
+    }
 }, 
 {timestamps: true});
 
