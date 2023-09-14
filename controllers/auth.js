@@ -16,8 +16,8 @@ export const register = async(req,res,next)=>{
     let fName = req.body.fName;
     let lName = req.body.lName;
     let cNumber = req.body.cNumber;
-  
-
+    let role = req.body.role;
+    
 
     try{
        
@@ -35,13 +35,21 @@ export const register = async(req,res,next)=>{
                 return res.status(409).json({error:false, data:{ success: false, message: "contact number is already in database"}})
             }
             
+            
         }
         else{
-        
+            if(!ROLES.hasOwnProperty(role)){
+                
+                return res.status(401).json({error:false, data:{ success: false, message: "Invalid role."}})
+            }
+            else{
+
+            
             //  code for registration
             const passwordHASH = hashPassword(password);
+            
             const user = {
-                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH, role: ROLES.User
+                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH, role: ROLES[role]
             }
 
             const saveUser = await userModel.create(user);
@@ -52,6 +60,7 @@ export const register = async(req,res,next)=>{
             else{
                 // user did not created successfully.
                 return res.status(409).json({ error: false, data: { success: false, message: "Error while creating account." } });
+            }
             }
         }
 
@@ -161,55 +170,3 @@ export const Adminregister = async(req,res,next)=>{
 
 
 
-
-export const publisherRegister = async(req,res,next)=>{
-     let email = req.body.email;
-    email = email ? email.trim().toLowerCase() : null
-    let password = req.body.password;
-    let fName = req.body.fName;
-    let lName = req.body.lName;
-    let cNumber = req.body.cNumber;
-    
-
-    try{
-    
-        //  check email or contact number is already in database
-        const checkEmail = await userModel.findOne({email: email});
-        const checkcNumber = await userModel.findOne({cNumber: cNumber});
-        if(checkEmail || checkcNumber){
-           
-            if(checkEmail){
-                //  email is already in database
-                return res.status(409).json({error: false, data:{ success: false, message: "email is already in database"}})
-            }
-            else if(checkcNumber){
-                //  contact number is already in database
-                return res.status(409).json({error:false, data:{ success: false, message: "contact number is already in database"}})
-            }
-            
-            
-        }
-        else{
-            //  code for registration
-            const passwordHASH = hashPassword(password);
-            const user = {
-                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH, role: ROLES.Publication
-            }
-
-            const saveUser = await userModel.create(user);
-            if(saveUser){
-                //  user created successfully.
-                return res.status(201).json({ error: false, data: { success: true, message: "Successfully created Publisher account." } });
-            }
-            else{
-                // user did not created successfully.
-                return res.status(409).json({ error: false, data: { success: false, message: "Error while creating account." } });
-            }
-        }
-
-    }
-    catch(err){
-        next(err);
-    }
-    
-}

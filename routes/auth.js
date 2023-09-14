@@ -1,5 +1,5 @@
 import express  from 'express';
-import { register, login, Adminregister, publisherRegister} from '../controllers/auth.js';
+import { register, login, Adminregister} from '../controllers/auth.js';
 import { userValidate, adminValidate } from '../middleware/schemaValidator.js';
 import { ROLES } from '../utillis/ROLE.js';
 import checkUserRole from '../middleware/checkUserRole.js'
@@ -8,8 +8,8 @@ const route = express.Router();
 
 route.post('/registration',userValidate,register);
 route.post('/login', login);
-route.post('/adminRegister', adminValidate,Adminregister);
-route.post('/addPublisher', checkUserRole(ROLES.Admin), publisherRegister)
+route.post('/adminRegister', checkUserRole(ROLES.Admin),Adminregister);
+
 
 //  login
 //  verify account

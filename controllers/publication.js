@@ -1,6 +1,8 @@
 import publicationModel from "../models/publication.js"
+import userModel from "../models/user.js";
 import { foundNationality } from "../utillis/country.js";
 import { validateEmail } from "../middleware/schemaValidator.js";
+import { ROLES } from "../utillis/ROLE.js";
 export const addPublication = async(req,res,next)=>{
     
 
@@ -12,7 +14,7 @@ export const addPublication = async(req,res,next)=>{
     console.log("creator  ",  creator)
     // checking if email is already in publication table
 
-    const checkEmail = await publicationModel.findOne({email: email});
+    const checkEmail = await userModel.findOne({email: email});
     const checkcNumber = await publicationModel.findOne({cNumber: cNumber});
     try{
         //  email is already in database or cNumber is already in database.
@@ -53,7 +55,7 @@ export const getAllPublication = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
    
-    const allPublication = await publicationModel.find({}).skip(skip).limit(limit);
+    const allPublication = await userModel.find({role: ROLES.Publication}).skip(skip).limit(limit);
     return res.status(200).json({error: false, data:{success:true, data: allPublication}});
 }
 
@@ -70,7 +72,7 @@ export const getPublication = async(req,res,next)=>{
         else{
             // email is valid
             // check email in publication model
-            const findPublication = await publicationModel.find({email: email });
+            const findPublication = await userModel.find({email: email, role:ROLES.Publication });
             if(findPublication.length>0){
                 return res.status(200).json({error: false, data:{success: true, data: findPublication}})
             }
@@ -149,7 +151,7 @@ export const updatePublication = async(req,res,next)=>{
 
 // sort authort
 export const sort = async(req,res)=>{
-    publicationModel.find({}).sort(req.query.sort)
+    userModel.find({role: ROLES.Publication}).sort(req.query.sort)
     .then((respo)=>{
 
         return res.status(200).json({error:false, data:{ success: true, messsage: "Get all publication by sorting", date: respo}})
@@ -173,7 +175,7 @@ export const search = async(req,res)=>{
     //     query.cNumber = {$regex: cNumber, $options:"i"};
     // }
     // console.log(query)
-    const searchPublication = await publicationModel.find(query);
+    const searchPublication = await userModel.find(query);
     if(searchPublication.length > 0){
         return res.status(200).json({error:false, data:{success:true, date:searchPublication}})
     }
