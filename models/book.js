@@ -1,8 +1,7 @@
 
 import mongoose, {Schema} from "mongoose";
 
-import authorModel from "./author.js";
-import publicationModel from "./publication.js";
+
 
 const bookSchema = new mongoose.Schema({
     title:{

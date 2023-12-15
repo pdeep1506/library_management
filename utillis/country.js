@@ -1539,15 +1539,12 @@ countries.forEach((item)=>{
 
 
 
-
-export const foundNationality = (name)=>{
-  for(let i = 0; i < countries.length;i++){
-    
-    if(countries[i].country == name){
-        return true
-        
+export const foundNationality = (name) => {
+  const lowerCaseName = name.toLowerCase();
+  for (let i = 0; i < countries.length; i++) {
+    if (countries[i].country === lowerCaseName) {
+      return true;
     }
-
   }
-  return false
-}
+  return false;
+};
