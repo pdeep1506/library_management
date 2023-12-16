@@ -5,7 +5,7 @@ import userModel from "../models/user.js"
 import { hashPassword } from "../utillis/hashPassword.js";
 
 // all user data
-export const allUsers = async(req,res,next)=>{
+export const getAllUsers = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
     // console.log(skip);
@@ -20,7 +20,7 @@ export const allUsers = async(req,res,next)=>{
 }
 
 //  get  all user data who are admin.
-export const allAdmin = async(req,res,next)=>{
+export const getAllAdmin = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
     const allUsers = await userModel.find({admin:true}).skip(skip).limit(limit);
@@ -33,7 +33,7 @@ export const allAdmin = async(req,res,next)=>{
 }
 
 //  get all user data who are not admin.
-export const allNotAdmin = async(req,res,next)=>{
+export const getAllNotAdmin = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
     const allUsers = await userModel.find({admin: false}).skip(skip).limit(limit);
@@ -72,7 +72,7 @@ export const getUser = async(req,res,next)=>{
 
 }
 
-export const changeData = async(req,res,next)=>{
+export const updateUser = async(req,res,next)=>{
     const id = req.params.id;
     const findUser = await userModel.find({_id:id});
   
@@ -123,7 +123,7 @@ export const changeData = async(req,res,next)=>{
 }
 
 // sort authort
-export const sort = async(req,res)=>{
+export const sortUser = async(req,res)=>{
     userModel.find({}).sort(req.query.sort)
     .then((respo)=>{
 
@@ -138,7 +138,7 @@ export const sort = async(req,res)=>{
 
 // search  user
 
-export const search = async(req,res,next)=>{
+export const searchUser = async(req,res,next)=>{
     let query = {}
     const {email}  = req.query
     if(email){

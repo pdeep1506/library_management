@@ -150,7 +150,7 @@ export const updatePublication = async(req,res,next)=>{
 
 
 // sort authort
-export const sort = async(req,res)=>{
+export const sortPublication = async(req,res)=>{
     userModel.find({role: ROLES.Publication}).sort(req.query.sort)
     .then((respo)=>{
 
@@ -163,7 +163,7 @@ export const sort = async(req,res)=>{
   
 }
 
-export const search = async(req,res)=>{
+export const searchPublication = async(req,res)=>{
     let query = {};
     const { email, cNumber} = req.query;
     if(email){
