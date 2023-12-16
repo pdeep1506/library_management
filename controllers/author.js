@@ -1,6 +1,7 @@
 import authorModel from "../models/author.js";
 import {  foundNationality } from "../utillis/country.js";
-
+import userModel from "../models/user.js";
+import { ROLES } from "../utillis/ROLE.js";
 
 export const createAuthor = async(req,res,next)=>{
     // console.log(req.body)
@@ -54,7 +55,7 @@ export const createAuthor = async(req,res,next)=>{
 }
 
 export const getAllAuthor = async(req,res,next)=>{
-    const getAllAuthor = await authorModel.find({});
+    const getAllAuthor = await userModel.find({role: ROLES.Author});
     if(getAllAuthor){
         return res.status(200).json({error: false, data:{success:true, data: getAllAuthor}});
     }
@@ -66,7 +67,7 @@ export const getAllAuthor = async(req,res,next)=>{
 export const getAuthor = async(req,res,next)=>{
     const email = req.body.email;
     if(email){
-        const findAuthor = await authorModel.find({email: email});
+        const findAuthor = await userModel.find({email: email, role: ROLES.Author});
         // console.log("find author  ", findAuthor.length);
         if(findAuthor.length > 0){
             return res.status(200).json({error: false, data:{success:true, data: findAuthor}})
@@ -133,7 +134,7 @@ export const updateAuthor = async(req,res,next)=>{
 
 // sort authort
 export const sort = async(req,res)=>{
-    authorModel.find({}).sort(req.query.sort)
+    userModel.find({role:ROLES.Author}).sort(req.query.sort)
     .then((respo)=>{
 
         return res.status(200).json({error:false, data:{ success: true, messsage: "Get all author by sorting", date: respo}})
@@ -160,7 +161,7 @@ export const search = async(req,res)=>{
     //     query.cNumber = {$regex: cNumber, $options:"i"};
     // }
     // console.log(query)
-    const searchAuthor = await authorModel.find(query);
+    const searchAuthor = await userModel.find(query);
     if(searchAuthor.length > 0){
         return res.status(200).json({error:false, data:{success:true, date:searchAuthor}})
     }

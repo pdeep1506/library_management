@@ -6,7 +6,7 @@ export const userSchemaValidator = Joi.object({
     fName: Joi.string().min(3).required(),
     lName: Joi.string().min(3).required(),
     cNumber: Joi.string().min(10).max(10).required(),
-
+    role: Joi.string(),
 
     email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
