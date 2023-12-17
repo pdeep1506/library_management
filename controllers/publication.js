@@ -11,7 +11,7 @@ export const addPublication = async(req,res,next)=>{
     const cNumber= req.body.cNumber;
     const nationality = req.body.nationality.toLowerCase();
     const creator = req.currentUser._id;
-    console.log("creator  ",  creator)
+    // console.log("creator  ",  creator)
     // checking if email is already in publication table
 
     const checkEmail = await userModel.findOne({email: email});
@@ -94,9 +94,9 @@ export const updatePublication = async(req,res,next)=>{
     
     const id = req.params.id;
     const creator = req.currentUser._id;
-    console.log("creater id  ", creator)
+    // console.log("creater id  ", creator)
     const findPublication = await publicationModel.find({_id:id});
-    console.log(findPublication[0].creator)
+    // console.log(findPublication[0].creator)
     if(findPublication.length<=0){
         return res.status(400).json({error: false, data:{success:false,message:"publication not found"}});
     }
