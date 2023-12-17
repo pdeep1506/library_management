@@ -12,7 +12,7 @@ const generateISBN = ()=>{
 }
 // save book
 
-export const saveBooks = async(req,res,next)=>{
+export const addBook = async(req,res,next)=>{
    
     const title = req.body.title;
     const subtitle = req.body.subtitle;
@@ -94,7 +94,7 @@ export const getAllBooks = async(req,res)=>{
 
 // sorting by price
 
-export const sortByPrice = async(req,res)=>{
+export const sortBook = async(req,res)=>{
     bookModel.find({}).populate('authorId') 
     .populate('publisherId').sort(req.query.sort)
     .then((respo)=>{
@@ -157,7 +157,7 @@ export const updateBook = async(req,res,next)=>{
 
 // search book
 
-export const searchBooks = async(req,res)=>{
+export const searchBook = async(req,res)=>{
     let query = {};
    const {title, subtitle} = req.query
    if(title){

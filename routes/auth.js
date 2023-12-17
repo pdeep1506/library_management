@@ -8,7 +8,7 @@ const route = express.Router();
 
 route.post('/registration',userValidate,register);
 route.post('/login', login);
-route.post('/adminRegister', checkUserRole(ROLES.Admin),Adminregister);
+route.post('/adminRegister', checkUserRole(ROLES.Admin),userValidate,Adminregister);
 
 
 //  login

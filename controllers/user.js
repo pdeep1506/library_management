@@ -1,15 +1,15 @@
-import { json } from "express";
+
 import { validateEmail } from "../middleware/schemaValidator.js";
 import userModel from "../models/user.js"
 
 import { hashPassword } from "../utillis/hashPassword.js";
+import { ROLES } from "../utillis/ROLE.js";
 
 // all user data
-export const allUsers = async(req,res,next)=>{
+export const getAllUsers = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
-    // console.log(skip);
-    // console.log(limit);
+    
     const allUsers = await userModel.find({}).skip(skip).limit(limit);
    
     for(let i = 0; i < allUsers.length;i++){
@@ -20,23 +20,24 @@ export const allUsers = async(req,res,next)=>{
 }
 
 //  get  all user data who are admin.
-export const allAdmin = async(req,res,next)=>{
+export const getAllAdmin = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
-    const allUsers = await userModel.find({admin:true}).skip(skip).limit(limit);
+    const allUsers = await userModel.find({role: ROLES.Admin}).skip(skip).limit(limit);
    
-    for(let i = 0; i < allUsers.length;i++){
-        allUsers[i].password = undefined;        
-    }
+    // for(let i = 0; i < allUsers.length;i++){
+    //     allUsers[i].password = undefined;        
+    // }
 
     return res.status(200).json({error: false, data:{success:true,data: allUsers}});
 }
 
 //  get all user data who are not admin.
-export const allNotAdmin = async(req,res,next)=>{
+export const getAllNotAdmin = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
-    const allUsers = await userModel.find({admin: false}).skip(skip).limit(limit);
+    const role = req.body.role.toUpperCase()
+    const allUsers = await userModel.find({role: role}).skip(skip).limit(limit);
    
     for(let i = 0; i < allUsers.length;i++){
         allUsers[i].password = undefined;        
@@ -72,7 +73,7 @@ export const getUser = async(req,res,next)=>{
 
 }
 
-export const changeData = async(req,res,next)=>{
+export const updateUser = async(req,res,next)=>{
     const id = req.params.id;
     const findUser = await userModel.find({_id:id});
   
@@ -123,7 +124,7 @@ export const changeData = async(req,res,next)=>{
 }
 
 // sort authort
-export const sort = async(req,res)=>{
+export const sortUser = async(req,res)=>{
     userModel.find({}).sort(req.query.sort)
     .then((respo)=>{
 
@@ -138,13 +139,15 @@ export const sort = async(req,res)=>{
 
 // search  user
 
-export const search = async(req,res,next)=>{
+export const searchUser = async(req,res,next)=>{
     let query = {}
     const {email}  = req.query
     if(email){
 
         query.email = {$regex: email, $options:"i"};
     }
+    
+    // console.log(query)
     const findUser = await userModel.find(query);
     // console.log(query)
     if(findUser.length > 0){
