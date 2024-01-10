@@ -9,7 +9,7 @@ export const userSchemaValidator = Joi.object({
     role: Joi.string(),
 
     email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
     password: Joi.string().regex(strongPasswordRegex).required()
 
 })
@@ -82,4 +82,6 @@ export const checkEmail = Joi.object({
 
 
 
- 
+export const checkRole = Joi.object({
+    role: Joi.string().required()
+}) 

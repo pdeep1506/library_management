@@ -1,4 +1,4 @@
-import { userSchemaValidator, authorSchemaValidator, adminSchemaValidator, publicationSchemaValidator, bookSchemaValidator,checkEmail } from "../utillis/SchemaDefine.js";
+import { userSchemaValidator, authorSchemaValidator, adminSchemaValidator, publicationSchemaValidator, bookSchemaValidator,checkEmail, checkRole } from "../utillis/SchemaDefine.js";
 
 
 export const userValidate = (req, res, next) => {
@@ -14,6 +14,8 @@ export const userValidate = (req, res, next) => {
         next();
     }
   }
+
+
 
 
   export const authorValidate = (req, res, next) => {
@@ -61,6 +63,19 @@ export const bookValidate = (req,res,next)=>{
     }
     else{
         next();
+    }
+}
+
+export const validateRole = (req,res,next)=>{
+
+
+    const { error } = checkRole.validate(req.body);
+    if(error){
+        return res.status(400).json({error: false, data:{success: false, data: "Invalid data.", error: error}})
+    }
+    else{
+        next();
+        // console.log("I am here  ", error)
     }
 }
 

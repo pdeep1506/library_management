@@ -36,8 +36,9 @@ export const getAllAdmin = async(req,res,next)=>{
 export const getAllNotAdmin = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
-    const role = req.body.role.toUpperCase()
-    const allUsers = await userModel.find({role: role}).skip(skip).limit(limit);
+    const role = req.body.role
+
+    const allUsers = await userModel.find({role: role.toUpperCase()}).skip(skip).limit(limit);
    
     for(let i = 0; i < allUsers.length;i++){
         allUsers[i].password = undefined;        
