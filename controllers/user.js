@@ -50,9 +50,13 @@ export const getAllNotAdmin = async(req,res,next)=>{
 //  get detail of particular user
 export const getUser = async(req,res,next)=>{
     const email = req.body.email;
+    if(!email){
+        return res.status(200).json({error:false, data:{success: false, message:"Email did not found."}})
+    }
     const emailIsInValid = validateEmail(email);
     // console.log(emailIsInValid)
     try{
+        
         if(emailIsInValid){
             // email invalid
              return res.status(400).json({error: false, data:{success:false,data:"Invalid email"}});
