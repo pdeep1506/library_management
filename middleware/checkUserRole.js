@@ -13,7 +13,7 @@ function checkUserRole(requiredRole){
                         
                         if(decoded.user.role == requiredRole){
                             req.currentUser = decoded.user
-                            console.log(decoded)
+                            // console.log(decoded)
                             next();
                         }
                         else{
