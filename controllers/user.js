@@ -81,7 +81,7 @@ export const getUser = async(req,res,next)=>{
 export const updateUser = async(req,res,next)=>{
     const id = req.params.id;
     const findUser = await userModel.find({_id:id});
-  
+    
     if(findUser.length <=0){
         return res.status(400).json({error: false, data:{success:false,message:"User not found"}});
     }
@@ -98,18 +98,19 @@ export const updateUser = async(req,res,next)=>{
               // cNumber is already associated with the other user (means new cNumber is already in database )
             return res.status(400).json({error:false, data:{success:false, message: "New contact number is already in database"}})
         }
-        else if(req.user.id == req.body.id){
+        else if(req.currentUser._id == req.body.id){
 
                 let email = req.body.email;
                 email = email ? email.trim().toLowerCase() : null
-                let password = req.body.password;
+                // let password = req.body.password;
                 let fName = req.body.fName;
                 let lName = req.body.lName;
                 let cNumber = req.body.cNumber;
-                const passwordHASH = hashPassword(password);
+                // const passwordHASH = hashPassword(password);
                 
                 const user = {
-                fName: fName, lName: lName, cNumber: cNumber, email: email, password: passwordHASH
+                fName: fName, lName: lName, cNumber: cNumber, email: email, 
+                // password: passwordHASH
                 }
 
                 const updateUser = await userModel.findOneAndUpdate({_id: id},user);

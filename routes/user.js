@@ -12,7 +12,7 @@ route.get('/getAllUsers',checkUserRole(ROLES.Admin),getAllUsers);
 route.get('/getAllAdmin',checkUserRole(ROLES.Admin),getAllAdmin);
 route.get('/getAllNotAdmin',checkUserRole(ROLES.Admin),validateRole,getAllNotAdmin);
 route.get('/getUser/',checkUserRole(ROLES.Admin) ,getUser)
-route.put('/updateUser/:id', checkUserRole(ROLES.User),userValidate,updateUser);
+route.put('/updateUser/:id', checkUserRole(ROLES.User),updateUser);
 route.get('/sortUser', checkUserRole(ROLES.Admin), sortUser);
 route.get('/searchUser', checkUserRole(ROLES.Admin), searchUser)
 
