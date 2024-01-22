@@ -6,7 +6,8 @@ import { ROLES } from '../utillis/ROLE.js';
 import checkUserRole from '../middleware/checkUserRole.js'
 const route = express.Router();
 
-// route.post('/addAuthor', verifyAdminLogin,authorValidate,createAuthor)
+route.post('/addAuthor', checkUserRole(ROLES.Admin),authorValidate,createAuthor)
+
 route.get('/getAllAuthor', checkUserRole(ROLES.Admin),getAllAuthor)
 // route.get('/getAuthor', verifyAdminLogin,getAuthor)
 route.get('/getAuthor', checkUserRole(ROLES.Admin),getAuthor)
