@@ -11,6 +11,9 @@ const publicationSchema = new mongoose.Schema({
     },nationality:{
         type: String
     },
+    role:{
+        type: String,
+    },
     creator:{
         type: Schema.Types.ObjectId,
         ref:"user"

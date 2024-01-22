@@ -39,7 +39,7 @@ export const addPublication = async(req,res,next)=>{
                 return res.status(409).json({success: false, data: {message: "Invalid country name"}})
             }
             else{
-                const savePublication = await publicationModel.create({name:name, email: email, cNumber: cNumber, nationality:nationality, creator:creator });
+                const savePublication = await publicationModel.create({name:name, email: email, cNumber: cNumber, nationality:nationality, role: ROLES.Publication,creator:creator });
                 return  res.status(201).json({error:false, data:{success: true, message:"publication successfully created", data:savePublication}});
             }
 
@@ -55,7 +55,7 @@ export const getAllPublication = async(req,res,next)=>{
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 5;
    
-    const allPublication = await userModel.find({role: ROLES.Publication}).skip(skip).limit(limit);
+    const allPublication = await publicationModel.find().skip(skip).limit(limit);
     return res.status(200).json({error: false, data:{success:true, data: allPublication}});
 }
 
@@ -72,7 +72,7 @@ export const getPublication = async(req,res,next)=>{
         else{
             // email is valid
             // check email in publication model
-            const findPublication = await userModel.find({email: email, role:ROLES.Publication });
+            const findPublication = await publicationModel.find({email: email });
             if(findPublication.length>0){
                 return res.status(200).json({error: false, data:{success: true, data: findPublication}})
             }
@@ -151,7 +151,7 @@ export const updatePublication = async(req,res,next)=>{
 
 // sort authort
 export const sortPublication = async(req,res)=>{
-    userModel.find({role: ROLES.Publication}).sort(req.query.sort)
+    publicationModel.find({}).sort(req.query.sort)
     .then((respo)=>{
 
         return res.status(200).json({error:false, data:{ success: true, messsage: "Get all publication by sorting", date: respo}})
@@ -165,7 +165,7 @@ export const sortPublication = async(req,res)=>{
 
 export const searchPublication = async(req,res)=>{
     let query = {};
-    const { email, cNumber} = req.query;
+    const { email} = req.body;
     if(email){
         
         query.email = {$regex: email, $options:"i"};
@@ -175,7 +175,7 @@ export const searchPublication = async(req,res)=>{
     //     query.cNumber = {$regex: cNumber, $options:"i"};
     // }
     // console.log(query)
-    const searchPublication = await userModel.find(query);
+    const searchPublication = await publicationModel.find(query);
     if(searchPublication.length > 0){
         return res.status(200).json({error:false, data:{success:true, date:searchPublication}})
     }

@@ -8,11 +8,11 @@ const route = express.Router();
 
 
 // add publication
-route.post('/addPublication', checkUserRole(ROLES.Publication),addPublication);
+route.post('/addPublication', checkUserRole(ROLES.Admin),addPublication);
 
 route.get('/getPublication', checkUserRole(ROLES.Admin), getPublication);
 route.get('/getAllPublication', checkUserRole(ROLES.Admin), getAllPublication);
-route.put('/updatePublication/:id', checkUserRole(ROLES.Publication), publicationValidate, updatePublication);
+route.put('/updatePublication/:id', checkUserRole(ROLES.Admin), publicationValidate, updatePublication);
 // route.delete();
 
 route.get('/sortPublication', verifyAdminLogin, sortPublication);
